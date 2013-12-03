@@ -1,0 +1,23 @@
+#!/bin/bash
+
+SOURCE="$1"
+
+if [ '' = "$1" ] ; then
+    SOURCE="default"
+fi
+
+if (echo "$SOURCE" | grep -E '.+:[0-9]+' > /dev/null) ; then
+    /usr/bin/puppet apply --modulepath=/scs/scs/puppet:/etc/puppet/modules:/usr/share/puppet/modules --server $1:$2
+elif (echo "$SOURCE" | grep -E 'https?://') ; then
+    /usr/bin/wget -O /tmp/puppet.pp "$SOURCE"
+    /usr/bin/puppet apply --modulepath=/scs/scs/puppet:/etc/puppet/modules:/usr/share/puppet/modules /tmp/puppet.pp
+    /bin/rm /tmp/puppet.pp
+else
+    /usr/bin/puppet apply --modulepath=/scs/scs/puppet:/etc/puppet/modules:/usr/share/puppet/modules /scs/scs/config/$SOURCE.pp
+fi
+
+chown -R scs:scs /scs/mnt/mysqld-binlog
+chown -R scs:scs /scs/mnt/mysqld-data
+[ ! -e /scs/mnt/mysqld-data/mysql ] && /usr/bin/mysql_install_db --defaults-file=/scs/etc/mysqld/mysqld.ini
+
+exec /usr/local/bin/supervisord -c /scs/etc/supervisor.conf
