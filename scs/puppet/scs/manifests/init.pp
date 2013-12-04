@@ -85,17 +85,20 @@ class scs (
             ;
         "/scs/var/log/mysqld" :
             ensure => directory,
-            user => 'scs',
+            owner => 'scs',
             group => 'scs',
             ;
         "/scs/var/run/mysqld" :
             ensure => directory,
-            user => 'scs',
+            owner => 'scs',
             group => 'scs',
             ;
         '/var/run/mysqld/mysqld.sock' :
             ensure => link,
-            target => '/scs/var/run/mysqld/mysqld.sock'
+            target => '/scs/var/run/mysqld/mysqld.sock',
+            require => [
+                Package['percona-server-server-5.6'],
+            ],
             ;
     }
 

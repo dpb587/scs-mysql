@@ -4,4 +4,5 @@ ADD . /scs
 VOLUME /scs/mnt/mysqld-binlog
 VOLUME /scs/mnt/mysqld-data
 EXPOSE 3306
-ENTRYPOINT /scs/scs/bin/run
+CMD [ "default", "/scs/scs/bin/run" ]
+ENTRYPOINT [ "/scs/scs/bin/boot" ]
