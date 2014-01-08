@@ -94,6 +94,7 @@ class scs (
             group => 'scs',
             ;
         '/var/run/mysqld/mysqld.sock' :
+            backup => false,
             ensure => link,
             target => '/scs/var/run/mysqld/mysqld.sock',
             require => [
