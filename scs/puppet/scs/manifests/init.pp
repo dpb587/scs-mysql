@@ -1,5 +1,6 @@
 class scs (
-    $mysqld_options = {}
+    $serverid = '',
+    $mysqld_options = {},
 ) {
     group {
         'scs' :
