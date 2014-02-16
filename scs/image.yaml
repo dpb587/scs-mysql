@@ -1,0 +1,15 @@
+engine:
+  docker:
+    from: 'ubuntu:precise'
+config:
+  method: puppet
+dependency:
+  provide:
+    mysql:
+      description: MySQL Connection
+      port: 3306
+  volume:
+    binlog:
+      description: Binary Log Storage
+    data:
+      description: Database Storage
