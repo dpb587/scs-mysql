@@ -1,0 +1,21 @@
+engine:
+  docker:
+    from: 'scs-base'
+config:
+  method: puppet
+provide:
+  mysql:
+    description: MySQL Connection
+    port: 3306
+volume:
+  binlog:
+    description: Binary Log Storage
+  data:
+    description: Database Storage
+logs:
+  - path: /var/log/mysqld/error.log
+    type: mysqld-error
+  - path: /var/log/supervisor/mysqld-stdout.log
+    type: mysqld-stdout
+  - path: /var/log/supervisor/mysqld-stderr.log
+    type: mysqld-stderr

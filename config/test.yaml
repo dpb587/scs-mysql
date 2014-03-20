@@ -25,12 +25,11 @@ container:
     environment: dev
     service: scs-mysql
     role: test
-  dependency:
-    provide:
-      mysql:
-        method: disco
-    volume:
-      data:
-        method: local
-      binlog:
-        method: local
+  provide:
+    mysql:
+      method: disco
+  volume:
+    data:
+      method: local
+    binlog:
+      method: local
