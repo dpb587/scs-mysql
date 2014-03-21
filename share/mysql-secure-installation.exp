@@ -1,0 +1,48 @@
+set container [lindex $argv 0]
+set rootpw [lindex $argv 1]
+
+set timeout 10
+
+spawn lxc-attach -n $container /usr/bin/mysql_secure_installation
+ 
+expect {
+    "Enter current password for root (enter for none):" { send "\r" }
+    timeout { puts "ERROR: timeout" ; exit 1 }
+}
+
+expect {
+    "Set root password?" { send "y\r" }
+    timeout { puts "ERROR: timeout" ; exit 1 }
+}
+
+expect {
+    "New password:" { send "$rootpw\r" }
+    timeout { puts "ERROR: timeout" ; exit 1 }
+}
+
+expect {
+    "Re-enter new password:" { send "$rootpw\r" }
+    timeout { puts "ERROR: timeout" ; exit 1 }
+}
+ 
+expect {
+    "Remove anonymous users?" { send "y\r" }
+    timeout { puts "ERROR: timeout" ; exit 1 }
+}
+ 
+expect {
+    "Disallow root login remotely?" { send "y\r" }
+    timeout { puts "ERROR: timeout" ; exit 1 }
+}
+ 
+expect {
+    "Remove test database and access to it?" { send "y\r" }
+    timeout { puts "ERROR: timeout" ; exit 1 }
+}
+
+expect {
+    "Reload privilege tables now?" { send "y\r" }
+    timeout { puts "ERROR: timeout" ; exit 1 }
+}
+
+expect eof
